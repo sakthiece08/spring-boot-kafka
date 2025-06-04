@@ -3,6 +3,7 @@
 #### Technologies and Tools
 * Java 21
 * Maven
+* sdkman
 * Kafka
 
 #### SDKMAN
@@ -20,4 +21,9 @@ Install maven wrapper to run maven commands on ease.
 mvn wrapper:wrapper
 ./mvnw clean build
 ```
+
+### Kafka Producer
+Create Spring Boot Kakfa Producer project using [Spring Initializr](https://start.spring.io/) 
+
+![img.png](src/main/resources/images/Producer.png)
 
