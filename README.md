@@ -27,3 +27,5 @@ Create Spring Boot Kakfa Producer project using [Spring Initializr](https://star
 
 ![img.png](src/main/resources/images/Producer.png)
 
+### Kafka Consumer 
+
