@@ -22,10 +22,39 @@ mvn wrapper:wrapper
 ./mvnw clean build
 ```
 
+
+
+### Kafka Setup
+Make sure you have Kafka and Zookeeper running locally or use Docker to set them up. You can use the provided `docker-compose.yml` file to run Kafka and Zookeeper.
+
 ### Kafka Producer
 Create Spring Boot Kakfa Producer project using [Spring Initializr](https://start.spring.io/) 
 
-![img.png](src/main/resources/images/Producer.png)
 
 ### Kafka Consumer 
+
+### Run Kafka and Zookeeper using Docker Compose
+
+```
+ CD spring-boot-kafka
+ ./docker compose -f docker-compose.yml up -d 
+ >> docker ps
+```
+### Steps to publish and consume messages using kafka container
+
+```
+>> docker exec -it (<container_name>)kafka /bin/sh
+>> cd /opt/kafka_2.13-2.8.1/bin
+>> kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic my_first_topic
+>> kafka-producer.sh --bootstrap-server localhost:9092 --topic my_first_topic
+
+>> kafka-consumer.sh --bootstrap-server localhost:9092 --topic my_first_topic --from-beginning
+```
+You can view the messages using Offset Explorer or any other Kafka GUI tool as well.
+
+![offset explorer](images/offset_explorer.jpg)
+
+
+
+
 
