@@ -6,7 +6,7 @@ Accept: application/vnd.spring-boot.actuator.v3+json
 
 ###
 
-GET http://127.0.0.1:8091/api/publish/testmessage1
+GET http://127.0.0.1:8091/api/publish/testmessage12
 
 <> 2025-08-14T224707.200.txt
 <> 2025-08-14T224520.200.txt
@@ -15,4 +15,5 @@ GET http://127.0.0.1:8091/api/publish/testmessage1
 <> 2025-08-14T224116.404.json
 
 ###
+GET http://127.0.0.1:8091/api/publish/bulk
 

@@ -20,7 +20,7 @@ public class KafkaMessagePublisher {
     private static final Logger logger = LogManager.getLogger(KafkaMessagePublisher.class);
 
     public void publishMessageToTopic(String message) {
-        CompletableFuture<SendResult<String, Object>> future = template.send("my_first_topic", message);
+        CompletableFuture<SendResult<String, Object>> future = template.send("teq_topic_1", message);
         future.whenComplete((result, ex) -> {
             if (ex == null)
                 logger.info("Sent message=[{}] with offset=[{}] partition {}",

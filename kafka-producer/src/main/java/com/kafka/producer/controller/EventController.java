@@ -23,4 +23,15 @@ public class EventController {
         publisher.publishMessageToTopic(message);
         return ResponseEntity.ok("Message published successfully");
     }
+
+    @GetMapping("/publish/bulk")
+    public ResponseEntity<?> publishBulkMessage() {
+        // for 1000 times call publishMessageToTopic method
+        for (int i = 0; i < 1000; i++) {
+            String message =  "message " + (i + 1);
+            publisher.publishMessageToTopic(message);
+        }
+
+        return ResponseEntity.ok("Bulk message published successfully");
+    }
 }
