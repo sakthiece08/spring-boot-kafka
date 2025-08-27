@@ -22,6 +22,11 @@ mvn wrapper:wrapper
 ./mvnw clean build
 ```
 
+### Kakfa Overview
+Apache Kafka is a distributed event streaming platform capable of handling trillions of events a day. It is used for building real-time data pipelines and streaming applications. Kafka
+is designed to be fast, scalable, and durable, making it suitable for a wide range of use cases including messaging, website activity tracking, log aggregation, stream processing, and event sourcing.
+
+![Producer Consumer](images/Kakfa Producer Consumer.jpeg)
 
 
 ### Kafka Setup
@@ -72,6 +77,9 @@ Single consumer: Group Id (my_group_id_1) is configured to connect to all partit
 o.s.k.l.KafkaMessageListenerContainer    : my_group_id_1: partitions assigned: [teq_topic_1-0, teq_topic_1-1, teq_topic_1-2]
 ```
 If there are multiple consumer instance then Zookeeper will assign partitions to each consumer instance.
+
+We can configure consumer to consume message from a particular partition as well.
+
 
 
 
