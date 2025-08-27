@@ -26,7 +26,7 @@ mvn wrapper:wrapper
 Apache Kafka is a distributed event streaming platform capable of handling trillions of events a day. It is used for building real-time data pipelines and streaming applications. Kafka
 is designed to be fast, scalable, and durable, making it suitable for a wide range of use cases including messaging, website activity tracking, log aggregation, stream processing, and event sourcing.
 
-![Producer Consumer](images/Kakfa Producer Consumer.jpeg)
+![Producer Consumer](images/Kakfa_producer_consumer.jpeg)
 
 
 ### Kafka Setup
