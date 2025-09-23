@@ -1,7 +1,6 @@
 package com.kafka.producer.service;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import com.kafka.common.dto.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +26,17 @@ public class KafkaMessagePublisher {
                         message, result.getRecordMetadata().offset(), result.getRecordMetadata().partition());
             else
                 logger.error("Unable to send message=[{}] due to {} ", message, ex.getMessage());
+        });
+    }
+
+    public void publishMessageToTopic(User user) {
+        CompletableFuture<SendResult<String, Object>> future = template.send("user_topic_2", user);
+        future.whenComplete((result, ex) -> {
+            if (ex == null)
+                logger.info("Sent message=[{}] with offset=[{}] partition {}",
+                        user.toString(), result.getRecordMetadata().offset(), result.getRecordMetadata().partition());
+            else
+                logger.error("Unable to send message=[{}] due to {} ", user.toString(), ex.getMessage());
         });
     }
 }

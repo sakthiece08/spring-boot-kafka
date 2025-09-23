@@ -17,3 +17,12 @@ GET http://127.0.0.1:8091/api/publish/testmessage12
 ###
 GET http://127.0.0.1:8091/api/publish/bulk
 
+###
+POST http://localhost:8091/api/publish/user
+Content-Type: application/json
+
+{
+  "id": 100,
+  "name": "Tom",
+  "email": "test@test.com"
+}

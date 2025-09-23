@@ -1,7 +1,7 @@
 package com.kafka.producer.controller;
 
+import com.kafka.common.dto.User;
 import com.kafka.producer.service.KafkaMessagePublisher;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,5 +33,15 @@ public class EventController {
         }
 
         return ResponseEntity.ok("Bulk message published successfully");
+    }
+
+    @PostMapping("/publish/user")
+    public ResponseEntity<?> publishUserMessage(@RequestBody User user) {
+        if (user == null) {
+            return ResponseEntity.badRequest().body("User cannot be null");
+        }
+        publisher.publishMessageToTopic(user);
+        return ResponseEntity.ok("User message published successfully");
+
     }
 }
