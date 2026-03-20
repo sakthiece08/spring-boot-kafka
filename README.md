@@ -43,7 +43,7 @@ port:8090
  ./docker compose -f docker-compose.yml up -d 
  >> docker ps
 ```
-### Steps to publish and consume messages using kafka container
+### Steps to publish and consume messages using kafka container and Kafka CLI
 
 ```
 >> docker exec -it (<container_name>)kafka /bin/sh
@@ -52,10 +52,71 @@ port:8090
 >> kafka-producer.sh --bootstrap-server localhost:9092 --topic my_first_topic
 
 >> kafka-consumer.sh --bootstrap-server localhost:9092 --topic my_first_topic --from-beginning
+>> kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic my_topic_1  --partition 0
+
+>> kafka-topics.sh --list --bootstrap-server localhost:9092
+>> kafka-topics.sh --describe --topic my_topic_1 --bootstrap-server localhost:9092
 ```
+* _**bootstrap-server**_ specifies where Kafka server is currently running
+* **_partitions_** - Kafka topic can be divided into multiple partitions to achieve parallelism and scalability.
+* **_replication-factor_** - Kafka topic can be replicated across multiple brokers to ensure high availability and fault tolerance.  Kind of backup.
+* Need to specify '--bootstrap-server' property to list topics
+
+We can open separate terminals for producer and consumer(multiple) to publish and consume messages from topic. We can see messages were broadcasted and consumed by
+all consumers connected to the topic. 
+
+### Consumer Group
+A consumer group is a collection of consumers that work together to consume messages from a Kafka topic. Each consumer in the group is responsible for consuming messages from one or more partitions of the topic. Kafka ensures that each partition is consumed by only one consumer within the group, allowing for parallel processing and load balancing.
+
+In the above exercise, we saw that each consumer received all the messages published to the topic. But if we made assign them to a single group, then only 1 consumer will receive messages.
+
+```
+>> kafka-consumer.sh --bootstrap-server localhost:9092 --topic my_first_topic --from-beginning --group my_group_id_1
+>> kafka-consumer.sh --bootstrap-server localhost:9092 --topic my_first_topic --from-beginning --group my_group_id_1
+```
+In the above example, both consumers are part of the same consumer group (my_group_id_1). As a result, only one of the consumers will receive messages from the topic, while the other consumer will be idle. This is because Kafka ensures that each partition is consumed by only one consumer within the group, allowing for parallel processing and load balancing. If you want both consumers to receive messages, you can assign them to different consumer groups.
+We can see status such as Lag and Offset for each consumer group using below command
+
+```
+>> kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group my_group_id_1
+```
+We cannot specify --partition along with --group option. Each consumer in a group is automatically assigned to consume messages from one or more partitions of the topic, and Kafka ensures that each partition is consumed by only one consumer within the group. If you want to consume messages from a specific partition, you can do so without using consumer groups, but in that case, you won't get the benefits of load balancing and parallel processing provided by consumer groups.
+
+#### Use case:
+
+If there are too many traffic for a topic, we can create multiple consumer instances to consume messages from the topic for the same consumer group.
+
 You can view the messages using Offset Explorer or any other Kafka GUI tool as well.
 
 ![offset explorer](images/offset_explorer.jpg)
+
+### Kafka Producer through Spring Boot Application
+
+```
+spring:
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+```
+
+**Producer**
+```
+@Autowired
+ private KafkaTemplate<String, Object> template;
+ 
+  public void publishMessageToTopic(String message) {
+        CompletableFuture<SendResult<String, Object>> future = template.send("teq_topic_1", message);
+        future.whenComplete((result, ex) -> {
+            if (ex == null)
+                logger.info("Sent message=[{}] with offset=[{}] partition {}",
+                        message, result.getRecordMetadata().offset(), result.getRecordMetadata().partition());
+            else
+                logger.error("Unable to send message=[{}] due to {} ", message, ex.getMessage());
+        });
+    }
+```
 
 ### Test through Spring Boot Application
 
@@ -97,6 +158,27 @@ string messages can be converted to Byte array as expected by Kafka.
   "message": "Can't convert value of class com.kafka.producer.dto.User to class org.apache.kafka.common.serialization.StringSerializer specified in value.serializer",
   "path": "/api/publish/user"
 }
+```
+Serialization and Deserialization can be configured in application properties file as below. 
+We can use JsonSerializer and JsonDeserializer provided by Spring Kafka to serialize and deserialize objects to and from JSON format.
+```
+spring:
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+```
+
+```
+spring:
+  kafka:
+    consumer:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: com.kafka.common.dto
 ```
 
 
