@@ -184,10 +184,10 @@ spring:
 ### Error Handling with Retry and Dead Letter Topic
 In case of any exception while consuming message from topic, we can configure retry mechanism to retry consuming the message for a certain number of times before sending the message to dead letter topic. 
 We can use Spring Kafka's error handling capabilities to achieve this.
-![Kafka_retry](images/Kafka_retry.jpeg)
+![Kafka_retry](images/Kafka_retry.jpg)
 
 In Application:
-![retry_DLT](images/Retry.jpeg)
+![retry_DLT](images/Retry.jpg)
 
 
 
