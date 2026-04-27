@@ -21,10 +21,10 @@ public class KafkaMessageListener {
         logger.info("Received message: {}", message);
     }
 
-    @RetryableTopic(attempts = "3")
-    @KafkaListener(topics = "user_topic_2", groupId = "user_group_id")
+    @RetryableTopic(attempts = "2")
+    @KafkaListener(topics = "user_topic_3", groupId = "user_group_id")
     public void consumeEvents(User user) {
-        logger.info("Received message: {}", user.toString());
+        logger.info("*** Received message: {}", user.toString());
         if(user.id() == 1)
             throw new RuntimeException("Simulated exception for user with id 1");
     }

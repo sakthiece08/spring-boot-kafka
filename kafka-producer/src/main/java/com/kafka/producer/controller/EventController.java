@@ -20,7 +20,7 @@ public class EventController {
         if (message == null || message.isEmpty()) {
             return ResponseEntity.badRequest().body("Message cannot be null or empty");
         }
-        publisher.publishMessageToTopic(message);
+      //  publisher.publishMessageToTopic(message);
         return ResponseEntity.ok("Message published successfully");
     }
 
@@ -29,7 +29,7 @@ public class EventController {
         // for 1000 times call publishMessageToTopic method
         for (int i = 0; i < 1000; i++) {
             String message =  "message " + (i + 1);
-            publisher.publishMessageToTopic(message);
+         //   publisher.publishMessageToTopic(message);
         }
 
         return ResponseEntity.ok("Bulk message published successfully");

@@ -14,11 +14,11 @@ import java.util.concurrent.CompletableFuture;
 public class KafkaMessagePublisher {
 
     @Autowired
-    private KafkaTemplate<String, Object> template;
+    private KafkaTemplate<String, User> template;
 
     private static final Logger logger = LogManager.getLogger(KafkaMessagePublisher.class);
 
-    public void publishMessageToTopic(String message) {
+   /* public void publishMessageToTopic(String message) {
         CompletableFuture<SendResult<String, Object>> future = template.send("teq_topic_1", message);
         future.whenComplete((result, ex) -> {
             if (ex == null)
@@ -28,9 +28,9 @@ public class KafkaMessagePublisher {
                 logger.error("Unable to send message=[{}] due to {} ", message, ex.getMessage());
         });
     }
-
+*/
     public void publishMessageToTopic(User user) {
-        CompletableFuture<SendResult<String, Object>> future = template.send("user_topic_2", user);
+        CompletableFuture<SendResult<String, User>> future = template.send("user_topic_3", user);
         future.whenComplete((result, ex) -> {
             if (ex == null)
                 logger.info("Sent message=[{}] with offset=[{}] partition {}",

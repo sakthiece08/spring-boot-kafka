@@ -22,7 +22,7 @@ POST http://localhost:8091/api/publish/user
 Content-Type: application/json
 
 {
-  "id": 100,
+  "id": 1,
   "name": "Tom",
   "email": "test@test.com"
 }
