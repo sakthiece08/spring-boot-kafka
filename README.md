@@ -189,6 +189,35 @@ We can use Spring Kafka's error handling capabilities to achieve this.
 In Application:
 ![retry_DLT](images/Retry.jpg)
 
+### Spring Cloud Function
+Spring Cloud Function is a framework that allows you to write business logic as functions and deploy them to various platforms, including serverless environments. 
+It provides a way to create and manage functions in a consistent manner, regardless of the underlying infrastructure.
+
+No need to create Controllers, Services, Repositories etc. Just write business logic as functions and deploy them.
+
+Usecases:
+* Serverless functions
+* Notification service
+* Consumer/Supplier type
+```
+  <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-function-context</artifactId>
+    </dependency>
+    
+    <dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-function-web</artifactId>
+		</dependency>
+```
+
+### Spring Cloud Stream
+Spring Cloud Stream is a framework for building event-driven microservices connected with shared messaging systems. 
+It provides a simple and consistent programming model for developing applications that can consume and produce messages to and from various messaging platforms, such as Apache Kafka, RabbitMQ, and others.
+
+Abstraction layer between spring boot and different type of message broker
+
+![img.png](images/SpringCloudStream.jpg)
 
 
 

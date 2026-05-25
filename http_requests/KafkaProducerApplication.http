@@ -26,3 +26,9 @@ Content-Type: application/json
   "name": "Tom",
   "email": "test@test.com"
 }
+
+###
+POST http://localhost:8091/uppercase
+Content-Type: application/json
+
+"hello world"
